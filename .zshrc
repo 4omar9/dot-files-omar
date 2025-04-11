@@ -151,6 +151,11 @@ alias ld="lazydocker"
 # Aliases for nvim
 alias vim="nvim"
 
+
+# Aliases for dotfiles
+alias lgdot='GIT_DIR=$HOME/.dotfiles GIT_WORK_TREE=$HOME lazygit'
+
+
 # heroku autocomplete setup
 HEROKU_AC_ZSH_SETUP_PATH=/Users/gage/Library/Caches/heroku/autocomplete/zsh_setup && test -f $HEROKU_AC_ZSH_SETUP_PATH && source $HEROKU_AC_ZSH_SETUP_PATH;
 export JAVA_HOME=$(/usr/libexec/java_home)
@@ -160,6 +165,9 @@ export PATH="$HOME/.rbenv/bin:$PATH"
 eval "$(rbenv init -)"
 
 export PATH="/opt/homebrew/bin:/usr/local/bin:$PATH"
+
+# For custom Scripts
+export PATH="$HOME/.local/bin:$PATH"
 
 # Added by LM Studio CLI (lms)
 export PATH="$PATH:/Users/gage/.lmstudio/bin"

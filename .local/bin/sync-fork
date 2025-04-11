@@ -1,0 +1,12 @@
+#!/bin/zsh
+
+# Sync the current fork's main branch with upstream using gh CLI
+
+# Get the current repo (based on the current directory)
+REPO=$(gh repo view --json nameWithOwner -q .nameWithOwner)
+
+# Branch to sync
+BRANCH="main"
+
+echo "🔄 Syncing $BRANCH branch of $REPO with upstream..."
+gh repo sync "$REPO" -b "$BRANCH"
