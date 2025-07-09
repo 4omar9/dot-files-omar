@@ -1,2 +1,31 @@
 # Local secrets (never commit)
 .zshrc_private
+
+#############################
+# Ignore EVERYTHING first
+#############################
+*
+.*
+
+#############################
+# Re-include the things you
+# actually want in the repo
+#############################
+!.gitignore
+
+# shell / git config
+!.gitconfig_fetch
+!.zshrc
+!.zprofile
+!.zshenv
+
+# scripts
+!.local/bin/
+!.local/bin/**
+
+# config you care about
+# !.config/
+# !.config/**
+
+
+
