@@ -117,6 +117,7 @@ cli_tools=(
   "mint"
   "lazygit"
   "lazydocker"
+  "gh"
   "node"
   "tree"
 )
@@ -147,5 +148,48 @@ if command -v npm &>/dev/null; then
 else
   echo "⚠️  npm not found. Skipping installation of global npm packages."
 fi
+
+# -----------------------------------------------------------------------------
+# GitHub access setup
+# -----------------------------------------------------------------------------
+
+setup_github_access() {
+  # Ensure GitHub CLI is installed (should be via brew above)
+  if ! command -v gh &>/dev/null; then
+    echo "🔧 Installing GitHub CLI (gh)..."
+    brew install gh
+  fi
+
+  # Authenticate via GitHub CLI if not already
+  if ! gh auth status &>/dev/null; then
+    echo "🔑 Launching interactive GitHub authentication..."
+    gh auth login
+  else
+    echo "✅ GitHub CLI already authenticated."
+  fi
+
+  # Generate SSH key if one doesn't exist
+  if [ ! -f "$HOME/.ssh/id_ed25519" ]; then
+    echo "🔐 Generating new SSH key (ed25519)..."
+    read "github_email?📧  Enter the email associated with your GitHub account: "
+    ssh-keygen -t ed25519 -C "$github_email" -f "$HOME/.ssh/id_ed25519" -N ""
+    eval "$(ssh-agent -s)" >/dev/null
+    ssh-add "$HOME/.ssh/id_ed25519"
+  else
+    echo "✅ SSH key already exists."
+  fi
+
+  # Upload public key to GitHub, if it's not there yet
+  PUB_KEY_CONTENT=$(cat "$HOME/.ssh/id_ed25519.pub")
+  if ! gh ssh-key list --json key -q '.[].key' | grep -q "$PUB_KEY_CONTENT"; then
+    echo "➕ Uploading SSH public key to GitHub..."
+    gh ssh-key add "$HOME/.ssh/id_ed25519.pub" -t "$(hostname)"
+  else
+    echo "✅ SSH key already present on GitHub."
+  fi
+}
+
+# Run GitHub setup
+setup_github_access
 
 echo "🎉 Bootstrap complete!"
