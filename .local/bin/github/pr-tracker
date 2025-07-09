@@ -1,0 +1,23 @@
+#!/bin/zsh
+
+# === Args ===
+MONTH=$1  # Format: YYYY-MM (e.g., 2025-04)
+OUTPUT_FILE="pr_report_${MONTH}.csv"
+
+if [[ -z "$MONTH" ]]; then
+  echo "❌ Please provide a month in YYYY-MM format."
+  exit 1
+fi
+
+# === Headers ===
+echo "Completed Date,Competency,Secondary Competency,Notes / Details,Title,Github Link,Type of Work,Modularization" > "$OUTPUT_FILE"
+
+# === Get merged PRs using GitHub CLI ===
+gh pr list --author "@me" --state merged --limit 100 --json title,url,mergedAt \
+  | jq -r --arg MONTH "$MONTH" '
+    .[] 
+    | select(.mergedAt | startswith($MONTH)) 
+    | "\(.mergedAt[0:10]),,,,\"\(.title)\",\(.url),,," 
+  ' >> "$OUTPUT_FILE"
+
+echo "✅ PR report generated: $OUTPUT_FILE"
