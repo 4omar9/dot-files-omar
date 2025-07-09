@@ -1,0 +1,24 @@
+# ~/.zshrc_private.example
+#
+# Copy this file to ~/.zshrc_private (which is git-ignored) and fill in your
+# real secrets. Keep every line you need and remove anything you don’t use.
+
+# Buf build tooling
+export BUF_TOKEN="YOUR_BUF_TOKEN_HERE"
+
+# Jira
+export JIRA_API_TOKEN="YOUR_JIRA_API_TOKEN_HERE"
+# Convenience – keeps existing scripts working
+export JIRA_TOKEN="$JIRA_API_TOKEN"
+
+# OpenAI / Claude / other LLMs
+export OPENAI_API_KEY="sk-…"
+
+# Bitrise
+export BITRISE_API_TOKEN="YOUR_BITRISE_API_TOKEN_HERE"
+export BITRISE_APP_SLUG="YOUR_BITRISE_APP_SLUG_HERE"
+
+# Private Go proxy (example only – include if you require it)
+# export GOPROXY="https://<user>:<token>@fetch.jfrog.io/artifactory/api/go/go,direct"
+
+# Add any additional secrets below as needed.
