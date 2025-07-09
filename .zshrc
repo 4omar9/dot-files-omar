@@ -1,5 +1,5 @@
-# If you come from bash you might have to change your $PATH.
-export PATH=$HOME/bin:/usr/local/bin:$PATH
+# If you come from Bash you might have to adjust your PATH. We'll configure PATH
+# in a dedicated section below, so no need for a separate export here.
 
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
@@ -12,22 +12,30 @@ fi
 # Load Fetch-specific config if it exists
 # source ~/.fetch-stuff.zsh
 
-# Add Go Path
-export PATH=$PATH:$HOME/go/bin
-export PATH="/opt/homebrew/opt/go/libexec/bin:$PATH"
-# Sensitive environment variables have been moved to ~/.zshrc_private.
-# Create that file locally (it's git-ignored) and export your secrets there.
-# Example:
-#   export OPENAI_API_KEY="sk-..."
-#   export JIRA_API_TOKEN="..."
-#   export BUF_TOKEN="..."
-#
-# Keep non-secret config here:
-export BUF_USER="g.halverson"
-export GONOPROXY="fetch.buf.dev/gen/go"
-export GONOSUMDB=bitbucket.org/fetchrewards,bitbucket.org/fetch,fetchrewards.com,github.com/fetch-rewards,fetch.com,fetch.buf.dev/gen/go
-export GOPRIVATE="fetch.buf.dev/gen/go,bitbucket.org/fetchrewards,github.com/fetch-rewards"
-export GOSUMDB=sum.golang.org
+# --- PATH configuration ----------------------------------------------------
+# Prepend commonly-used local paths then let Homebrew and system paths follow.
+# Use unique array to avoid duplicates when the file is sourced multiple times.
+typeset -U path PATH
+
+# User binaries
+path=(
+  "$HOME/bin"
+  "$HOME/.local/bin"
+  "$HOME/.local/bin/jira-scripts"
+  "$HOME/.local/bin/github"
+
+  # Go toolchains
+  "$HOME/go/bin"
+  "/opt/homebrew/opt/go/libexec/bin"
+
+  # Homebrew default locations
+  "/opt/homebrew/bin"
+  "/usr/local/bin"
+  $path
+)
+
+# Export the joined PATH string
+PATH=$(IFS=:; echo "${path[*]}")
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -188,7 +196,8 @@ alias webr="gh repo view --web"
 
 alias fo="fetch open"
 alias fc="fetch checkout"
-alias cob="fetch checkout"
+# 'cob' already refers to 'git co -b' higher up; keep single definition
+# alias cob="fetch checkout"
 alias fpr="fetch pr -d -p"
 
 # Jira:
@@ -232,13 +241,7 @@ export JAVA_HOME=$(/usr/libexec/java_home)
 
 
 
-export PATH="/opt/homebrew/bin:/usr/local/bin:$PATH"
-export PATH="$HOME/.local/bin:$PATH"
-export PATH="$HOME/.local/bin/jira-scripts:$PATH"
-export PATH="$HOME/.local/bin/github:$PATH"
-
-# For custom Scripts
-export PATH="$HOME/.local/bin:$PATH"
+# (PATH has already been configured earlier; redundant exports removed)
 
 # Added by LM Studio CLI (lms)
 export PATH="$PATH:/Users/gage/.lmstudio/bin"
