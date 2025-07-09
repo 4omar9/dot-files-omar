@@ -18,6 +18,7 @@
 !.zshrc
 !.zprofile
 !.zshenv
+!.gitconfig.template
 
 # scripts
 !.local/bin/
