@@ -85,10 +85,16 @@ fi
 # Dotfiles setup
 if [ ! -d "$HOME/.dotfiles" ]; then
   echo "📦 Cloning dotfiles repo..."
-  git clone --bare git@github.com:hi2gage/dotfiles.git "$HOME/.dotfiles"
+  git clone --bare https://github.com/hi2gage/dot-files.git "$HOME/.dotfiles"
   echo "🔧 Checking out dotfiles..."
   alias dotfiles='git --git-dir=$HOME/.dotfiles --work-tree=$HOME'
-  dotfiles checkout
+  # Handle potential conflicts during checkout
+  if ! dotfiles checkout 2>/dev/null; then
+    echo "⚠️  Backing up pre-existing dotfiles..."
+    mkdir -p .dotfiles-backup
+    dotfiles checkout 2>&1 | egrep "\s+\." | awk {'print $1'} | xargs -I{} mv {} .dotfiles-backup/{}
+    dotfiles checkout
+  fi
   dotfiles config --local status.showUntrackedFiles no
 else
   echo "✅ Dotfiles already present."

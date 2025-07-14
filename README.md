@@ -7,13 +7,13 @@ My personal dotfiles for macOS setup, including configurations, scripts, and aut
 Run this single command on a fresh macOS installation:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/hi2gage/dotfiles/main/setup.sh | bash
+curl -fsSL https://raw.githubusercontent.com/hi2gage/dot-files/main/setup.sh | bash
 ```
 
 Or, if you prefer to review the script first:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/hi2gage/dotfiles/main/setup.sh -o setup.sh
+curl -fsSL https://raw.githubusercontent.com/hi2gage/dot-files/main/setup.sh -o setup.sh
 # Review the script
 cat setup.sh
 # Run it
@@ -62,7 +62,7 @@ If you prefer to set things up manually:
 
 1. Clone the repository as a bare repo:
    ```bash
-   git clone --bare https://github.com/hi2gage/dotfiles.git $HOME/.dotfiles
+   git clone --bare https://github.com/hi2gage/dot-files.git $HOME/.dotfiles
    ```
 
 2. Define the alias:
