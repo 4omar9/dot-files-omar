@@ -90,6 +90,10 @@ alias gmr="git machete traverse --fetch --start-from=first-root"
 alias gme='GIT_MACHETE_EDITOR=vim git machete edit'
 alias gmd='git machete slide-out'
 
+# Git
+alias f="cd Dev/ios-fetch-rewards/"
+alias c="cd Dev/card-service/"
+
 # Github:
 
 alias wb='gh pr comment -b /distribute-firebase'
