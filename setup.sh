@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Complete macOS setup script with dotfiles management
-# Usage: curl -fsSL https://raw.githubusercontent.com/hi2gage/dotfiles/main/setup.sh | bash
+# Usage: curl -fsSL https://raw.githubusercontent.com/hi2gage/dot-files/main/setup.sh | bash
 
 set -e
 
@@ -33,7 +33,8 @@ backup_conflicting_files() {
 # Clone dotfiles as bare repository
 if [ ! -d "$HOME/.dotfiles" ]; then
     echo "📦 Cloning dotfiles repository..."
-    git clone --bare https://github.com/hi2gage/dotfiles.git "$HOME/.dotfiles"
+    # Use HTTPS for initial clone (no auth needed for public repos)
+    git clone --bare https://github.com/hi2gage/dot-files.git "$HOME/.dotfiles"
     
     # Define the dotfiles alias function for this session
     function dotfiles {
@@ -61,7 +62,7 @@ if [ -f "$HOME/bootstrap.zsh" ]; then
     zsh "$HOME/bootstrap.zsh"
 else
     echo "❌ bootstrap.zsh not found in home directory. Downloading..."
-    curl -fsSL https://raw.githubusercontent.com/hi2gage/dotfiles/main/bootstrap.zsh -o "$HOME/bootstrap.zsh"
+    curl -fsSL https://raw.githubusercontent.com/hi2gage/dot-files/main/bootstrap.zsh -o "$HOME/bootstrap.zsh"
     chmod +x "$HOME/bootstrap.zsh"
     zsh "$HOME/bootstrap.zsh"
 fi
@@ -86,4 +87,7 @@ echo "   1. Restart your terminal or run: source ~/.zshrc"
 echo "   2. Your dotfiles are managed with: dotfiles <git commands>"
 echo "   3. Example: dotfiles status, dotfiles add <file>, dotfiles commit"
 echo ""
-echo "🔑 Note: You'll need to set up GitHub SSH access if not already done."
+echo "🔑 To enable pushing changes back to GitHub:"
+echo "   1. The bootstrap script will help set up GitHub CLI and SSH keys"
+echo "   2. After setup, switch remote to SSH: dotfiles remote set-url origin git@github.com:hi2gage/dot-files.git"
+echo "   3. Or use GitHub token: gh auth login"
