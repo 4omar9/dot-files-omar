@@ -23,6 +23,7 @@
 # scripts
 !.local/bin/
 !.local/bin/**
+!setup.sh
 
 # config you care about
 # !.config/
