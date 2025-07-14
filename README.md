@@ -32,6 +32,7 @@ bash setup.sh
 - ChatGPT
 - Obsidian
 - Docker Desktop
+- Slack
 
 ### CLI Tools (via Homebrew)
 - opensim

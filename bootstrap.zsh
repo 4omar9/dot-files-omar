@@ -58,6 +58,7 @@ apps=(
   "ChatGPT.app:ChatGPT:chatgpt"
   "Obsidian.app:Obsidian:obsidian"
   "Docker.app:Docker Desktop:docker"
+  "Slack.app:Slack:slack"
 )
 
 for entry in "${apps[@]}"; do
