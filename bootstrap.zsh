@@ -120,7 +120,7 @@ cli_tools=(
   "xcodes"
   "mise"
   "git-machete"
-  "jira"
+  "go-jira"
   "mint"
   "lazygit"
   "lazydocker"
