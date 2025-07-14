@@ -198,4 +198,12 @@ setup_github_access() {
 # Run GitHub setup
 setup_github_access
 
+# Convert dotfiles remote to SSH after GitHub setup
+if [ -d "$HOME/.dotfiles" ] && command -v gh &>/dev/null && gh auth status &>/dev/null; then
+  echo "🔄 Converting dotfiles remote to SSH..."
+  alias dotfiles='git --git-dir=$HOME/.dotfiles --work-tree=$HOME'
+  dotfiles remote set-url origin git@github.com:hi2gage/dot-files.git
+  echo "✅ Dotfiles remote converted to SSH for push access."
+fi
+
 echo "🎉 Bootstrap complete!"
