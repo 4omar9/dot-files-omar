@@ -7,7 +7,7 @@ My personal dotfiles for macOS setup, including configurations, scripts, and aut
 Run this single command on a fresh macOS installation:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/hi2gage/dot-files/main/setup.sh | bash
+curl -fsSL https://raw.githubusercontent.com/4omar9/dot-files-omar/main/setup.sh | bash
 ```
 
 Or, if you prefer to review the script first:
