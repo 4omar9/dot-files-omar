@@ -49,16 +49,16 @@ fi
 
 # Install apps via loop
 apps=(
-  "Alfred 5.app:Alfred:alfred"
+  "Raycast.app:raycast"
+  "Claude.app:claude-squad"
   "Visual Studio Code.app:VS Code:visual-studio-code"
   "Github Desktop.app:Github Desktop:github"
-  "iTerm.app:iTerm2:iterm2"
   "Postman.app:Postman:postman"
   "Rectangle.app:Rectangle:rectangle"
   "ChatGPT.app:ChatGPT:chatgpt"
   "Obsidian.app:Obsidian:obsidian"
   "Docker.app:Docker Desktop:docker"
-  "Slack.app:Slack:slack"
+  "Outlook.app:microsoft-outlook"
 )
 
 for entry in "${apps[@]}"; do
