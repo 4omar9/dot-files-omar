@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Complete macOS setup script with dotfiles management
-# Usage: curl -fsSL https://raw.githubusercontent.com/hi2gage/dot-files/main/setup.sh | bash
+# Usage: curl -fsSL https://raw.githubusercontent.com/omasri/dot-files-omar/main/setup.sh | bash
 
 set -e
 
@@ -34,7 +34,7 @@ backup_conflicting_files() {
 if [ ! -d "$HOME/.dotfiles" ]; then
     echo "📦 Cloning dotfiles repository..."
     # Use HTTPS for initial clone (no auth needed for public repos)
-    git clone --bare https://github.com/hi2gage/dot-files.git "$HOME/.dotfiles"
+    git clone --bare https://github.com/omasri/dot-files-omar.git "$HOME/.dotfiles"
     
     # Define the dotfiles alias function for this session
     function dotfiles {
@@ -62,7 +62,7 @@ if [ -f "$HOME/bootstrap.zsh" ]; then
     zsh "$HOME/bootstrap.zsh"
 else
     echo "❌ bootstrap.zsh not found in home directory. Downloading..."
-    curl -fsSL https://raw.githubusercontent.com/hi2gage/dot-files/main/bootstrap.zsh -o "$HOME/bootstrap.zsh"
+    curl -fsSL https://raw.githubusercontent.com/omasri/dot-files-omar/main/bootstrap.zsh -o "$HOME/bootstrap.zsh"
     chmod +x "$HOME/bootstrap.zsh"
     zsh "$HOME/bootstrap.zsh"
 fi

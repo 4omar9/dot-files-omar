@@ -1,11 +1,56 @@
+# Git Configuration Template
+# Copy this to ~/.gitconfig and update with your information
+# Or run the bootstrap script which will prompt for these values
+
 [user]
     name = YOUR NAME
     email = your.email@example.com
+    # signingkey = YOUR_GPG_KEY_ID
 
-# Shared aliases, LFS, etc. Put anything *generic* here.
+[core]
+    editor = vim
+    autocrlf = input
+    pager = less -FMRiX
+
+[pull]
+    rebase = true
+
+[push]
+    default = current
+
+[commit]
+    # gpgsign = true  # Uncomment to sign all commits with GPG
+
 [alias]
+    # Common shortcuts
     co = checkout
+    br = branch
+    ci = commit
+    st = status
+    unstage = reset HEAD --
+    last = log -1 HEAD
+    
+    # Pretty log views
+    lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+    lga = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --all
+    
+    # Useful commands
+    undo = reset --soft HEAD~1
+    amend = commit --amend --no-edit
+    cleanup = !git branch --merged | grep -v '\\*\\|main\\|master\\|develop' | xargs -n 1 git branch -d
 
-# Example: rewrite Bitbucket HTTPS to SSH (remove if not needed)
-# [url "git@bitbucket.org:"]
-#     insteadOf = https://bitbucket.org/
+[color]
+    ui = auto
+
+[diff]
+    tool = vimdiff
+
+[merge]
+    tool = vimdiff
+    conflictstyle = diff3
+
+[filter "lfs"]
+    clean = git-lfs clean -- %f
+    smudge = git-lfs smudge -- %f
+    process = git-lfs filter-process
+    required = true

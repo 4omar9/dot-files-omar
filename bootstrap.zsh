@@ -50,15 +50,44 @@ fi
 # Install apps via loop
 apps=(
   "Raycast.app:raycast"
-  "Claude.app:claude-squad"
+  "Claude.app:claude"
   "Visual Studio Code.app:VS Code:visual-studio-code"
-  "Github Desktop.app:Github Desktop:github"
   "Postman.app:Postman:postman"
-  "Rectangle.app:Rectangle:rectangle"
   "ChatGPT.app:ChatGPT:chatgpt"
   "Obsidian.app:Obsidian:obsidian"
-  "Docker.app:Docker Desktop:docker"
-  "Outlook.app:microsoft-outlook"
+  "Microsoft Outlook.app:microsoft-outlook"
+  "Arc.app:Arc:arc"
+  "Discord.app:Discord:discord"
+  "Slack.app:Slack:slack"
+  "Spotify.app:Spotify:spotify"
+  "WhatsApp.app:WhatsApp:whatsapp"
+  "Warp.app:Warp:warp"
+  "Cursor.app:Cursor:cursor"
+  "Fork.app:Fork:fork"
+  "Proxyman.app:Proxyman:proxyman"
+  "MonitorControl.app:MonitorControl:monitorcontrol"
+  "1Password.app:1Password:1password"
+  "Figma.app:Figma:figma"
+  "Fantastical.app:Fantastical:fantastical"
+  "NordVPN.app:NordVPN:nordvpn"
+  "RocketSim.app:RocketSim:rocketsim-for-xcode"
+  "SF Symbols.app:SF Symbols:sf-symbols"
+  "Dash.app:Dash:dash"
+  "DB Browser for SQLite.app:db-browser-for-sqlite"
+  "Charles.app:Charles:charles"
+  "Paw.app:Paw:paw"
+  "A Companion for SwiftUI.app:swiftui-companion"
+  "Developer.app:Developer:apple-developer"
+  "Flow.app:Flow:flow"
+  "Day One.app:Day One:day-one"
+  "GPG Keychain.app:GPG Keychain:gpg-suite"
+  "zoom.us.app:Zoom:zoom"
+  "Elgato Wave Link.app:elgato-wave-link"
+  "logioptionsplus.app:logi-options-plus"
+  "Cloudflare WARP.app:cloudflare-warp"
+  "Okta Extension App.app:okta-extension-app"
+  "Okta Verify.app:Okta Verify:okta-verify"
+  "Miro.app:Miro:miro"
 )
 
 for entry in "${apps[@]}"; do
@@ -75,7 +104,15 @@ else
   echo "✅ 'code' command already set up."
 fi
 
-# Install Oh My Zsh
+# Install Oh My Zsh or Powerlevel10k
+if [ ! -d "$HOME/powerlevel10k" ]; then
+  echo "💡 Installing Powerlevel10k..."
+  git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
+else
+  echo "✅ Powerlevel10k already installed."
+fi
+
+# Install Oh My Zsh if not present
 if [ ! -d "$HOME/.oh-my-zsh" ]; then
   echo "💡 Installing Oh My Zsh..."
   RUNZSH=no CHSH=no sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
@@ -86,7 +123,7 @@ fi
 # Dotfiles setup
 if [ ! -d "$HOME/.dotfiles" ]; then
   echo "📦 Cloning dotfiles repo..."
-  git clone --bare https://github.com/hi2gage/dot-files.git "$HOME/.dotfiles"
+  git clone --bare https://github.com/omasri/dot-files-omar.git "$HOME/.dotfiles"
   echo "🔧 Checking out dotfiles..."
   alias dotfiles='git --git-dir=$HOME/.dotfiles --work-tree=$HOME'
   # Handle potential conflicts during checkout
@@ -106,7 +143,7 @@ if ! grep -q "alias dotfiles=" "$HOME/.zshrc"; then
   echo "alias dotfiles='git --git-dir=\$HOME/.dotfiles --work-tree=\$HOME'" >> "$HOME/.zshrc"
 fi
 
-# Create Dev directory
+# Create necessary directories
 if [ ! -d "$HOME/Dev" ]; then
   echo "📁 Creating ~/Dev directory..."
   mkdir "$HOME/Dev"
@@ -114,19 +151,39 @@ else
   echo "✅ ~/Dev directory already exists."
 fi
 
+if [ ! -d "$HOME/Projects" ]; then
+  echo "📁 Creating ~/Projects directory..."
+  mkdir "$HOME/Projects"
+else
+  echo "✅ ~/Projects directory already exists."
+fi
+
 # CLI tools
 cli_tools=(
-  "opensim"
-  "xcodes"
-  "mise"
-  "git-machete"
-  "go-jira"
-  "mint"
-  "lazygit"
-  "lazydocker"
   "gh"
   "node"
-  "tree"
+  "jq"
+  "starship"
+  "swiftlint"
+  "mint"
+  "mise"
+  "rbenv"
+  "ruby-build"
+  "graphviz"
+  "mailsy"
+  "xcodes"
+  "xcodegen"
+  "xcbeautify"
+  "xcpretty"
+  "fastlane"
+  "sourcery"
+  "swiftgen"
+  "periphery"
+  "tuist"
+  "chisel"
+  "ios-deploy"
+  "libimobiledevice"
+  "ideviceinstaller"
 )
 
 for tool in "${cli_tools[@]}"; do
@@ -147,11 +204,11 @@ if command -v npm &>/dev/null; then
     fi
   }
 
-  # Claude Code
-  install_npm_package "@anthropic-ai/claude-code"
-
-  # OpenAI Codex
-  install_npm_package "@openai/codex"
+  # Note: Add your own npm packages here as needed
+  # Example:
+  # install_npm_package "prettier"
+  # install_npm_package "typescript"
+  # install_npm_package "@vue/cli"
 else
   echo "⚠️  npm not found. Skipping installation of global npm packages."
 fi
@@ -203,8 +260,165 @@ setup_github_access
 if [ -d "$HOME/.dotfiles" ] && command -v gh &>/dev/null && gh auth status &>/dev/null; then
   echo "🔄 Converting dotfiles remote to SSH..."
   alias dotfiles='git --git-dir=$HOME/.dotfiles --work-tree=$HOME'
-  dotfiles remote set-url origin git@github.com:hi2gage/dot-files.git
+  dotfiles remote set-url origin git@github.com:omasri/dot-files-omar.git
   echo "✅ Dotfiles remote converted to SSH for push access."
 fi
+
+# Install Cask apps that need special handling
+install_cask_by_name "swiftformat-for-xcode"
+
+# Setup rbenv
+if command -v rbenv &>/dev/null; then
+  echo "🔧 Setting up rbenv..."
+  rbenv init || true
+  # Install Ruby 3.3.5 if not present
+  if ! rbenv versions | grep -q "3.3.5"; then
+    echo "💎 Installing Ruby 3.3.5..."
+    rbenv install 3.3.5
+    rbenv global 3.3.5
+  fi
+  
+  # Install bundler and iOS development gems
+  echo "💎 Installing bundler and iOS gems..."
+  gem install bundler
+  gem install xcpretty
+  gem install fastlane
+  rbenv rehash
+else
+  echo "⚠️  rbenv not found."
+fi
+
+# Setup mise
+if command -v mise &>/dev/null; then
+  echo "🔧 Setting up mise..."
+  mise activate zsh || true
+else
+  echo "⚠️  mise not found."
+fi
+
+# Install iOS development tools via Mint
+if command -v mint &>/dev/null; then
+  echo "🌿 Installing iOS tools via Mint..."
+  # Only install via Mint if not already installed via Homebrew
+  if ! command -v swiftgen &>/dev/null; then
+    mint install SwiftGen/SwiftGen
+  fi
+  if ! command -v sourcery &>/dev/null; then
+    mint install krzysztofzablocki/Sourcery
+  fi
+  if ! command -v periphery &>/dev/null; then
+    mint install peripheryapp/periphery
+  fi
+  # Note: SwiftLint and SwiftFormat are already installed via Homebrew
+else
+  echo "⚠️  Mint not found. Skipping Mint-based iOS tools."
+fi
+
+# Configure Xcode command line tools
+if command -v xcode-select &>/dev/null; then
+  echo "🛠️  Ensuring Xcode command line tools are installed..."
+  xcode-select --install 2>/dev/null || echo "✅ Xcode command line tools already installed."
+fi
+
+# Install simulators
+if command -v xcodes &>/dev/null; then
+  echo "📱 Setting up iOS simulators..."
+  # List available Xcode versions but don't install automatically
+  echo "Available Xcode versions:"
+  xcodes list
+  echo "To install a specific Xcode version, run: xcodes install <version>"
+fi
+
+# Setup private configuration
+setup_private_config() {
+  echo ""
+  echo "🔐 Setting up private configuration..."
+  
+  if [ ! -f "$HOME/.zshrc_private" ]; then
+    echo "📝 Creating .zshrc_private for sensitive data..."
+    
+    # Copy template if it exists
+    if [ -f "$HOME/.zshrc_private.template" ]; then
+      cp "$HOME/.zshrc_private.template" "$HOME/.zshrc_private"
+    else
+      touch "$HOME/.zshrc_private"
+    fi
+    
+    echo ""
+    echo "Would you like to configure API keys and credentials now? (y/n)"
+    read -r configure_now
+    
+    if [[ "$configure_now" == "y" ]]; then
+      # Git configuration
+      echo ""
+      echo "📧 Git Configuration:"
+      read -p "Enter your full name for Git commits: " git_name
+      read -p "Enter your email for Git commits: " git_email
+      
+      # Update .gitconfig
+      if [ -f "$HOME/.gitconfig" ]; then
+        git config --global user.name "$git_name"
+        git config --global user.email "$git_email"
+      fi
+      
+      # Jira configuration
+      echo ""
+      echo "🎫 Jira Configuration (press Enter to skip):"
+      read -p "Enter your Jira email: " jira_user
+      read -p "Enter your Jira API token: " jira_token
+      
+      if [ -n "$jira_user" ]; then
+        echo "export JIRA_USER=\"$jira_user\"" >> "$HOME/.zshrc_private"
+      fi
+      if [ -n "$jira_token" ]; then
+        echo "export JIRA_TOKEN=\"$jira_token\"" >> "$HOME/.zshrc_private"
+      fi
+      
+      # API Keys
+      echo ""
+      echo "🔑 API Keys (press Enter to skip any):"
+      read -p "Enter your OpenAI API key: " openai_key
+      read -p "Enter your Anthropic API key: " anthropic_key
+      read -p "Enter your Google Gemini API key: " gemini_key
+      
+      if [ -n "$openai_key" ]; then
+        echo "export OPENAI_API_KEY=\"$openai_key\"" >> "$HOME/.zshrc_private"
+      fi
+      if [ -n "$anthropic_key" ]; then
+        echo "export ANTHROPIC_API_KEY=\"$anthropic_key\"" >> "$HOME/.zshrc_private"
+      fi
+      if [ -n "$gemini_key" ]; then
+        echo "export GEMINI_API_KEY=\"$gemini_key\"" >> "$HOME/.zshrc_private"
+      fi
+      
+      # Project-specific
+      echo ""
+      echo "🏢 Company/Project Configuration (press Enter to skip):"
+      read -p "Enter your Apple Developer username: " apple_dev_user
+      read -p "Enter your Firebase project ID: " firebase_project
+      
+      if [ -n "$apple_dev_user" ]; then
+        echo "export APPLE_DEVELOPER_USERNAME=\"$apple_dev_user\"" >> "$HOME/.zshrc_private"
+      fi
+      if [ -n "$firebase_project" ]; then
+        echo "export GOOGLE_CLOUD_PROJECT=\"$firebase_project\"" >> "$HOME/.zshrc_private"
+      fi
+      
+      echo ""
+      echo "✅ Private configuration saved to ~/.zshrc_private"
+      echo "💡 You can always edit this file later to add or update values"
+    else
+      echo ""
+      echo "⚠️  Skipping configuration. You can set up your private config later by:"
+      echo "   1. Copying ~/.zshrc_private.template to ~/.zshrc_private"
+      echo "   2. Filling in your API keys and credentials"
+    fi
+  else
+    echo "✅ Private configuration already exists at ~/.zshrc_private"
+  fi
+}
+
+# Run private config setup
+setup_private_config
 
 echo "🎉 Bootstrap complete!"

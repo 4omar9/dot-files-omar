@@ -7,7 +7,7 @@ My personal dotfiles for macOS setup, including configurations, scripts, and aut
 Run this single command on a fresh macOS installation:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/4omar9/dot-files-omar/main/setup.sh | bash
+curl -fsSL https://raw.githubusercontent.com/omasri/dot-files-omar/main/setup.sh | bash
 ```
 
 Or, if you prefer to review the script first:
@@ -23,39 +23,145 @@ bash setup.sh
 ## 📦 What's Included
 
 ### Applications (via Homebrew Cask)
-- Alfred 5
+
+#### Development Tools
 - Visual Studio Code
-- GitHub Desktop
-- iTerm2
+- Cursor
+- Fork
 - Postman
-- Rectangle
-- ChatGPT
+- Proxyman
+- Charles
+- Paw
+- Dash
+- DB Browser for SQLite
+- Developer
+- Warp
+
+#### iOS Development
+- RocketSim
+- SF Symbols
+- A Companion for SwiftUI
+- SwiftFormat for Xcode
+
+#### Productivity & Organization
+- Raycast
 - Obsidian
-- Docker Desktop
+- Microsoft Outlook
+- Fantastical
+- Day One
+- Flow
+- Miro
+- 1Password
+
+#### Communication
 - Slack
+- Discord
+- WhatsApp
+- Zoom
+- Arc
+
+#### AI & Design
+- Claude
+- ChatGPT
+- Figma
+
+#### System & Utilities
+- MonitorControl
+- GPG Keychain
+- Cloudflare WARP
+- NordVPN
+- Okta Extension App
+- Okta Verify
+- Elgato Wave Link
+- Logi Options Plus
+
+#### Entertainment
+- Spotify
 
 ### CLI Tools (via Homebrew)
-- opensim
-- xcodes
-- mise
-- git-machete
-- jira
-- mint
-- lazygit
-- lazydocker
 - gh (GitHub CLI)
 - node
-- tree
+- jq
+- starship
+- swiftlint
+- mint
+- mise
+- rbenv & ruby-build
+- graphviz
+- mailsy
+- xcodes
+- xcodegen
+- xcbeautify
+- xcpretty
+- fastlane
+- sourcery
+- swiftgen
+- periphery
+- tuist
+- chisel
+- ios-deploy
+- libimobiledevice
+- ideviceinstaller
 
 ### NPM Global Packages
-- @anthropic-ai/claude-code
-- @openai/codex
+Configure any global npm packages you need in bootstrap.zsh
 
-### Configuration
-- Oh My Zsh setup
+### Shell Configuration
+- **Powerlevel10k** theme for Zsh (with fallback to Oh My Zsh)
+- **Starship** prompt (when not using Powerlevel10k)
+- Extensive PATH configuration for development tools
+- rbenv and mise for version management
+- Custom aliases for project navigation
+- GPG configuration for signed commits
+
+### Configuration Files
+- `.zshrc` - Main shell configuration
+- `.p10k.zsh` - Powerlevel10k configuration
+- `.gitconfig` - Git configuration
+- `.zshrc_private` - Private environment variables (not tracked)
 - Custom scripts in `~/.local/bin`
-- Git configuration
-- Shell aliases and functions
+
+## 📱 iOS Development Tools
+
+### Xcode Management
+- **xcodes** - Manage multiple Xcode versions
+- **xcbeautify** - Beautiful Xcode build output
+- **xcpretty** - Flexible and fast xcodebuild formatter
+
+### Build & Dependency Tools
+- **xcodegen** - Generate Xcode projects from spec files
+- **tuist** - Create, maintain, and interact with Xcode projects at scale
+- **fastlane** - Automate building and releasing iOS apps
+- **mint** - Package manager for Swift command line tools
+
+### Code Quality & Analysis
+- **swiftlint** - Enforce Swift style and conventions
+- **swiftformat** - Format Swift code
+- **swiftgen** - Code generator for assets, strings, etc.
+- **sourcery** - Meta-programming for Swift
+- **periphery** - Identify unused code
+
+### Debugging & Device Tools
+- **chisel** - Collection of LLDB commands for debugging
+- **ios-deploy** - Install and debug iOS apps from command line
+- **libimobiledevice** - Cross-platform library for iOS device communication
+- **ideviceinstaller** - Manage apps on iOS devices
+
+### GUI Apps for iOS Development
+- **RocketSim** - Enhance Xcode Simulator
+- **SF Symbols** - Apple's icon library
+- **Dash** - API documentation browser
+- **DB Browser for SQLite** - SQLite database viewer
+- **Charles/Proxyman** - HTTP proxy for debugging
+- **Paw** - API testing tool
+
+### Useful iOS Aliases & Functions
+- `xc` - Open Xcode workspace/project
+- `xcclean` - Clean DerivedData
+- `sim` - Launch iOS Simulator
+- `simlist` - List available simulators
+- `ioslog` - Stream device logs
+- `clean-build` - Clean all build artifacts
 
 ## 🔧 Manual Setup
 
@@ -63,7 +169,7 @@ If you prefer to set things up manually:
 
 1. Clone the repository as a bare repo:
    ```bash
-   git clone --bare https://github.com/hi2gage/dot-files.git $HOME/.dotfiles
+   git clone --bare https://github.com/omasri/dot-files-omar.git $HOME/.dotfiles
    ```
 
 2. Define the alias:
