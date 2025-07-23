@@ -3,6 +3,11 @@
 set -e
 echo "🚀 Starting dotfiles bootstrap..."
 
+# Define dotfiles function for the entire script
+function dotfiles {
+  git --git-dir=$HOME/.dotfiles --work-tree=$HOME "$@"
+}
+
 # Helper Functions
 install_cask_app() {
   local app_name="$1"
@@ -125,16 +130,14 @@ if [ ! -d "$HOME/.dotfiles" ]; then
   echo "📦 Cloning dotfiles repo..."
   git clone --bare https://github.com/4omar9/dot-files-omar.git "$HOME/.dotfiles"
   echo "🔧 Checking out dotfiles..."
-  # Define the git command for dotfiles
-  DOTFILES_CMD="git --git-dir=$HOME/.dotfiles --work-tree=$HOME"
   # Handle potential conflicts during checkout
-  if ! $DOTFILES_CMD checkout 2>/dev/null; then
+  if ! dotfiles checkout 2>/dev/null; then
     echo "⚠️  Backing up pre-existing dotfiles..."
     mkdir -p .dotfiles-backup
-    $DOTFILES_CMD checkout 2>&1 | egrep "\s+\." | awk {'print $1'} | xargs -I{} mv {} .dotfiles-backup/{}
-    $DOTFILES_CMD checkout
+    dotfiles checkout 2>&1 | egrep "\s+\." | awk {'print $1'} | xargs -I{} mv {} .dotfiles-backup/{}
+    dotfiles checkout
   fi
-  $DOTFILES_CMD config --local status.showUntrackedFiles no
+  dotfiles config --local status.showUntrackedFiles no
 else
   echo "✅ Dotfiles already present."
 fi
@@ -260,7 +263,7 @@ setup_github_access
 # Convert dotfiles remote to SSH after GitHub setup
 if [ -d "$HOME/.dotfiles" ] && command -v gh &>/dev/null && gh auth status &>/dev/null; then
   echo "🔄 Converting dotfiles remote to SSH..."
-  git --git-dir=$HOME/.dotfiles --work-tree=$HOME remote set-url origin git@github.com:4omar9/dot-files-omar.git
+  dotfiles remote set-url origin git@github.com:4omar9/dot-files-omar.git
   echo "✅ Dotfiles remote converted to SSH for push access."
 fi
 
