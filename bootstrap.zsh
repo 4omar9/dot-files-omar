@@ -123,17 +123,18 @@ fi
 # Dotfiles setup
 if [ ! -d "$HOME/.dotfiles" ]; then
   echo "📦 Cloning dotfiles repo..."
-  git clone --bare https://github.com/omasri/dot-files-omar.git "$HOME/.dotfiles"
+  git clone --bare https://github.com/4omar9/dot-files-omar.git "$HOME/.dotfiles"
   echo "🔧 Checking out dotfiles..."
-  alias dotfiles='git --git-dir=$HOME/.dotfiles --work-tree=$HOME'
+  # Define the git command for dotfiles
+  DOTFILES_CMD="git --git-dir=$HOME/.dotfiles --work-tree=$HOME"
   # Handle potential conflicts during checkout
-  if ! dotfiles checkout 2>/dev/null; then
+  if ! $DOTFILES_CMD checkout 2>/dev/null; then
     echo "⚠️  Backing up pre-existing dotfiles..."
     mkdir -p .dotfiles-backup
-    dotfiles checkout 2>&1 | egrep "\s+\." | awk {'print $1'} | xargs -I{} mv {} .dotfiles-backup/{}
-    dotfiles checkout
+    $DOTFILES_CMD checkout 2>&1 | egrep "\s+\." | awk {'print $1'} | xargs -I{} mv {} .dotfiles-backup/{}
+    $DOTFILES_CMD checkout
   fi
-  dotfiles config --local status.showUntrackedFiles no
+  $DOTFILES_CMD config --local status.showUntrackedFiles no
 else
   echo "✅ Dotfiles already present."
 fi
@@ -259,8 +260,7 @@ setup_github_access
 # Convert dotfiles remote to SSH after GitHub setup
 if [ -d "$HOME/.dotfiles" ] && command -v gh &>/dev/null && gh auth status &>/dev/null; then
   echo "🔄 Converting dotfiles remote to SSH..."
-  alias dotfiles='git --git-dir=$HOME/.dotfiles --work-tree=$HOME'
-  dotfiles remote set-url origin git@github.com:omasri/dot-files-omar.git
+  git --git-dir=$HOME/.dotfiles --work-tree=$HOME remote set-url origin git@github.com:4omar9/dot-files-omar.git
   echo "✅ Dotfiles remote converted to SSH for push access."
 fi
 

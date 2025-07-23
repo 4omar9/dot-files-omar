@@ -34,7 +34,7 @@ backup_conflicting_files() {
 if [ ! -d "$HOME/.dotfiles" ]; then
     echo "📦 Cloning dotfiles repository..."
     # Use HTTPS for initial clone (no auth needed for public repos)
-    git clone --bare https://github.com/omasri/dot-files-omar.git "$HOME/.dotfiles"
+    git clone --bare https://github.com/4omar9/dot-files-omar.git "$HOME/.dotfiles"
     
     # Define the dotfiles alias function for this session
     function dotfiles {
