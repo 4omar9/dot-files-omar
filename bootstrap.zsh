@@ -14,7 +14,7 @@ install_cask_app() {
   local app_path="$2"
   local cask_name="$3"
 
-  if ! ls /Applications | grep -q "$app_path"; then
+  if [ ! -e "/Applications/$app_path" ]; then
     echo "🍺 Installing $app_name..."
     brew install --cask "$cask_name"
   else
@@ -117,13 +117,6 @@ else
   echo "✅ Powerlevel10k already installed."
 fi
 
-# Install Oh My Zsh if not present
-if [ ! -d "$HOME/.oh-my-zsh" ]; then
-  echo "💡 Installing Oh My Zsh..."
-  RUNZSH=no CHSH=no sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-else
-  echo "✅ Oh My Zsh already installed."
-fi
 
 # Dotfiles setup
 if [ ! -d "$HOME/.dotfiles" ]; then
