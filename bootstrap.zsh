@@ -48,6 +48,15 @@ install_cask_by_name() {
 if ! command -v brew &>/dev/null; then
   echo "🍺 Installing Homebrew..."
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  
+  # Add Homebrew to PATH for current session
+  if [[ -d "/opt/homebrew" ]]; then
+    # Apple Silicon
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+  else
+    # Intel Mac
+    eval "$(/usr/local/bin/brew shellenv)"
+  fi
 else
   echo "✅ Homebrew already installed."
 fi
@@ -56,7 +65,7 @@ fi
 apps=(
   "Raycast.app:raycast"
   "Claude.app:claude"
-  "Visual Studio Code.app:VS Code:visual-studio-code"
+  "Visual Studio Code.app:visual-studio-code"
   "Postman.app:Postman:postman"
   "ChatGPT.app:ChatGPT:chatgpt"
   "Obsidian.app:Obsidian:obsidian"
@@ -97,6 +106,10 @@ apps=(
 
 for entry in "${apps[@]}"; do
   IFS=":" read -r app_path name cask <<< "$entry"
+  # If cask is empty, use name as the cask name
+  if [[ -z "$cask" ]]; then
+    cask="$name"
+  fi
   install_cask_app "$name" "$app_path" "$cask"
 done
 
@@ -109,7 +122,23 @@ else
   echo "✅ 'code' command already set up."
 fi
 
-# Install Oh My Zsh or Powerlevel10k
+# Install Oh My Zsh (required by .zshrc)
+if [ ! -d "$HOME/.oh-my-zsh" ]; then
+  echo "💡 Installing Oh My Zsh..."
+  RUNZSH=no CHSH=no sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+else
+  echo "✅ Oh My Zsh already installed."
+fi
+
+# Install zsh-autosuggestions plugin
+if [ ! -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions" ]; then
+  echo "🔌 Installing zsh-autosuggestions plugin..."
+  git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+else
+  echo "✅ zsh-autosuggestions already installed."
+fi
+
+# Install Powerlevel10k theme
 if [ ! -d "$HOME/powerlevel10k" ]; then
   echo "💡 Installing Powerlevel10k..."
   git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k
@@ -127,7 +156,7 @@ if [ ! -d "$HOME/.dotfiles" ]; then
   if ! dotfiles checkout 2>/dev/null; then
     echo "⚠️  Backing up pre-existing dotfiles..."
     mkdir -p .dotfiles-backup
-    dotfiles checkout 2>&1 | egrep "\s+\." | awk {'print $1'} | xargs -I{} mv {} .dotfiles-backup/{}
+    dotfiles checkout 2>&1 | grep -E "\s+\." | awk {'print $1'} | xargs -I{} mv {} .dotfiles-backup/{}
     dotfiles checkout
   fi
   dotfiles config --local status.showUntrackedFiles no
@@ -232,7 +261,12 @@ setup_github_access() {
   # Generate SSH key if one doesn't exist
   if [ ! -f "$HOME/.ssh/id_ed25519" ]; then
     echo "🔐 Generating new SSH key (ed25519)..."
-    read "github_email?📧  Enter the email associated with your GitHub account: "
+    # Create .ssh directory if it doesn't exist
+    mkdir -p "$HOME/.ssh"
+    chmod 700 "$HOME/.ssh"
+    
+    echo -n "📧  Enter the email associated with your GitHub account: "
+    read github_email
     ssh-keygen -t ed25519 -C "$github_email" -f "$HOME/.ssh/id_ed25519" -N ""
     eval "$(ssh-agent -s)" >/dev/null
     ssh-add "$HOME/.ssh/id_ed25519"
