@@ -84,7 +84,6 @@ apps=(
   "Figma.app:Figma:figma"
   "Fantastical.app:Fantastical:fantastical"
   "NordVPN.app:NordVPN:nordvpn"
-  "RocketSim.app:RocketSim:rocketsim-for-xcode"
   "SF Symbols.app:SF Symbols:sf-symbols"
   "Dash.app:Dash:dash"
   "DB Browser for SQLite.app:db-browser-for-sqlite"
