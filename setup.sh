@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Complete macOS setup script with dotfiles management
-# Usage: curl -fsSL https://raw.githubusercontent.com/omasri/dot-files-omar/main/setup.sh | bash
+# Usage: curl -fsSL https://raw.githubusercontent.com/4omar9/dot-files-omar/main/setup.sh | bash
 
 set -e
 
@@ -62,7 +62,7 @@ if [ -f "$HOME/bootstrap.zsh" ]; then
     zsh "$HOME/bootstrap.zsh"
 else
     echo "❌ bootstrap.zsh not found in home directory. Downloading..."
-    curl -fsSL https://raw.githubusercontent.com/omasri/dot-files-omar/main/bootstrap.zsh -o "$HOME/bootstrap.zsh"
+    curl -fsSL https://raw.githubusercontent.com/4omar9/dot-files-omar/main/bootstrap.zsh -o "$HOME/bootstrap.zsh"
     chmod +x "$HOME/bootstrap.zsh"
     zsh "$HOME/bootstrap.zsh"
 fi
