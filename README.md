@@ -38,7 +38,6 @@ bash setup.sh
 - Warp
 
 #### iOS Development
-- RocketSim
 - SF Symbols
 - A Companion for SwiftUI
 - SwiftFormat for Xcode
@@ -148,7 +147,6 @@ Configure any global npm packages you need in bootstrap.zsh
 - **ideviceinstaller** - Manage apps on iOS devices
 
 ### GUI Apps for iOS Development
-- **RocketSim** - Enhance Xcode Simulator
 - **SF Symbols** - Apple's icon library
 - **Dash** - API documentation browser
 - **DB Browser for SQLite** - SQLite database viewer
